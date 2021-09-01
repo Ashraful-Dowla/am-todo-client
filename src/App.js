@@ -1,25 +1,82 @@
-import logo from './logo.svg';
-import './App.css';
+import { Switch, Route, Redirect } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { connect } from "react-redux";
 
-function App() {
+import Login from "./components/login";
+import Register from "./components/register";
+import Dashboard from "./components/dashboard";
+import AddTodo from "./components/add-todo";
+import TodoList from "./components/todo-list";
+import UpdateTodo from "./components/update-todo";
+import Profile from "./components/profile";
+import AssignTask from "./components/assign-task";
+import AssignTaskList from "./components/assign-task-list";
+import UpdateAssignTask from "./components/update-assign-task";
+
+function App({ user }) {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={() => (user ? <Dashboard /> : <Login />)}
+        />
+        <Route
+          exact
+          path="/register"
+          render={() => (user ? <Dashboard /> : <Register />)}
+        />
+        <Route
+          exact
+          path="/dashboard"
+          render={() => (user ? <Dashboard /> : <Redirect to="/" />)}
+        />
+        <Route
+          exact
+          path="/add-todo"
+          render={() => (user ? <AddTodo /> : <Redirect to="/" />)}
+        />
+        <Route
+          exact
+          path="/todo-list"
+          render={() => (user ? <TodoList /> : <Redirect to="/" />)}
+        />
+        <Route
+          exact
+          path="/update-todo"
+          render={() => (user ? <UpdateTodo /> : <Redirect to="/" />)}
+        />
+        <Route
+          exact
+          path="/profile"
+          render={() => (user ? <Profile /> : <Redirect to="/" />)}
+        />
+         <Route
+          exact
+          path="/assign-task"
+          render={() => (user ? <AssignTask /> : <Redirect to="/" />)}
+        />
+        <Route
+          exact
+          path="/assign-task-list"
+          render={() => (user ? <AssignTaskList /> : <Redirect to="/" />)}
+        />
+        <Route
+          exact
+          path="/update-assign-task-list"
+          render={() => (user ? <UpdateAssignTask /> : <Redirect to="/" />)}
+        />
+      </Switch>
+      <ToastContainer />
+    </>
   );
 }
 
-export default App;
+//state.user.currentUser
+const mapStateToProps = ({ user: { currentUser } }) => ({
+  user: currentUser,
+});
+
+export default connect(mapStateToProps)(App);
