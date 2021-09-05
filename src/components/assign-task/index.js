@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import { toast } from "react-toastify";
 
 import SelectSearch, { fuzzySearch } from "react-select-search";
-import "../utils/select-search.css";
+import "../../utils/select-search.css";
 
-import Dashboard from "./dashboard";
-import { api } from "../utils/api";
+import Dashboard from "../dashboard";
+import { api } from "../../utils/api";
 
 function AssignTask({ currentUser: { access_token } }) {
   const [disabled, setDisabled] = useState(false);

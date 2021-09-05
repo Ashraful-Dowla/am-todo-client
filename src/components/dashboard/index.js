@@ -3,14 +3,14 @@ import { Navbar, Container, Nav, NavDropdown } from "react-bootstrap";
 
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { setCurrentUser } from "../redux/user/user-actions";
+import { setCurrentUser } from "../../redux/user/user-actions";
 
-import { api } from "../utils/api";
+import { api } from "../../utils/api";
 import { toast } from "react-toastify";
 
 function Dashboard({ user: { user, access_token }, setCurrentUser }) {
   const history = useHistory();
-  const handleLogout = async (event) => {
+  const handleLogout = async event => {
     event.preventDefault();
 
     api({
@@ -18,16 +18,16 @@ function Dashboard({ user: { user, access_token }, setCurrentUser }) {
       url: "/logout",
       headers: {
         Accept: "application/json",
-        Authorization: "Bearer " + access_token,
-      },
+        Authorization: "Bearer " + access_token
+      }
     })
-      .then((response) => {
+      .then(response => {
         toast.info(response.data.message);
         setCurrentUser(null);
         localStorage.clear();
         history.push("/");
       })
-      .catch((error) => {
+      .catch(error => {
         toast.error("Something went wrong");
       });
   };
@@ -59,12 +59,15 @@ function Dashboard({ user: { user, access_token }, setCurrentUser }) {
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  setCurrentUser: (user) => dispatch(setCurrentUser(user)),
+const mapDispatchToProps = dispatch => ({
+  setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
 const mapStateToProps = ({ user: { currentUser } }) => ({
-  user: currentUser,
+  user: currentUser
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Dashboard);

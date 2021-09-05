@@ -6,8 +6,8 @@ import { Checkmark } from "react-checkmark";
 
 import { toast } from "react-toastify";
 
-import { api } from "../utils/api";
-import Dashboard from "./dashboard";
+import { api } from "../../utils/api";
+import Dashboard from "../dashboard";
 
 function AssignTaskList({ currentUser: { access_token }, history }) {
   const [list, setList] = useState([]);

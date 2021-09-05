@@ -1,74 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Form, Container, Row, Col, Button } from "react-bootstrap";
-import { useLocation, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
-
-import { toast } from "react-toastify";
-
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-datepicker/dist/react-datepicker-cssmodules.css";
 
-import Dashboard from "./dashboard";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import FormData from "form-data";
+import { toast } from "react-toastify";
 
-import { api } from "../utils/api";
-import { formattedDate } from "../utils/format-date";
+import Dashboard from "../dashboard";
+import { api } from "../../utils/api";
+import { formattedDate } from "../../utils/format-date";
 
-function UpdateTodo({ user, history }) {
-  const location = useLocation();
-
+function AddTodo({ user, history }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [deadline, setDeadline] = useState();
 
   const [disabled, setDisabled] = useState(false);
 
-  useEffect(() => {
-    try {
-      getDataById(location.state.id);
-    } catch (error) {
-      history.push("/todo-list");
-    }
-  }, []);
-
-  const getDataById = async (idx) => {
-    const response = await api({
-      method: "get",
-      url: "/task/" + idx,
-      headers: {
-        Accept: "application/json",
-        Authorization: "Bearer " + user.access_token,
-      },
-    });
-    const { name, description, deadline } = response.data.task;
-
-    setName(name);
-    setDescription(description);
-    setDeadline(new Date(deadline));
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    let date;
-    if(deadline){
-      date = formattedDate(deadline);
+    var formData = new FormData();
+
+    formData.append("name", name);
+    formData.append("description", description);
+
+    if (deadline) {
+      let date = formattedDate(deadline);
+      formData.append("deadline", date);
     }
 
     setDisabled(true);
 
     api({
-      method: "put",
-      url: "/task/" + location.state.id,
+      method: "post",
+      url: "/task",
       headers: {
         Accept: "application/json",
         Authorization: "Bearer " + user.access_token,
       },
-      data: {
-        name,
-        description,
-        deadline: date,
-      },
+      data: formData,
     })
       .then((response) => {
         toast.info(response.data.message);
@@ -83,14 +57,16 @@ function UpdateTodo({ user, history }) {
           if (errors) errors.map((err) => toast.error(err));
         } catch (err) {
           toast.error("Something went wrong");
+          // console.log(error);
         }
+
         setDisabled(false);
       });
   };
   return (
     <>
       <Dashboard />
-      <h1 className="text-center mt-3">Update Todo List</h1>
+      <h1 className="text-center mt-3">Add Todo List</h1>
       <Container className="w-50">
         <Row>
           <Col>
@@ -100,7 +76,6 @@ function UpdateTodo({ user, history }) {
                 <Form.Control
                   type="text"
                   placeholder="Enter name"
-                  value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </Form.Group>
@@ -110,7 +85,6 @@ function UpdateTodo({ user, history }) {
                   as="textarea"
                   aria-label="With textarea"
                   placeholder="Enter Descriptions"
-                  value={description}
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </Form.Group>
@@ -128,7 +102,7 @@ function UpdateTodo({ user, history }) {
                   onClick={handleSubmit}
                   disabled={disabled}
                 >
-                  Update
+                  Submit
                 </Button>
               </Form.Group>
             </Form>
@@ -143,4 +117,4 @@ const mapStateToProps = ({ user: { currentUser } }) => ({
   user: currentUser,
 });
 
-export default withRouter(connect(mapStateToProps)(UpdateTodo));
+export default withRouter(connect(mapStateToProps)(AddTodo));

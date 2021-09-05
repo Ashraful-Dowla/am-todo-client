@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Dashboard from "./dashboard";
 import { Container, Row, Card, Button } from "react-bootstrap";
 
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { api } from "../utils/api";
+import Dashboard from "../dashboard";
+import { api } from "../../utils/api";
 
 function MyAssignTask({ currentUser: { access_token }, history }) {
   const [list, setList] = useState([]);

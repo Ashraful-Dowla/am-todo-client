@@ -3,9 +3,9 @@ import { Card, Container, Row, Col, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 
-import Dashboard from "./dashboard";
+import Dashboard from "../dashboard";
 
-import { api } from "../utils/api";
+import { api } from "../../utils/api";
 import { toast } from "react-toastify";
 import { Checkmark } from "react-checkmark";
 

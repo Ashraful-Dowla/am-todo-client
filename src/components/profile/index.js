@@ -3,9 +3,9 @@ import { Container, Row, Col, Form, Button, Image } from "react-bootstrap";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import FormData from "form-data";
-import Dashboard from "./dashboard";
+import Dashboard from "../dashboard";
 
-import { api } from "../utils/api";
+import { api } from "../../utils/api";
 
 function Profile({ currentUser: { user, access_token } }) {
   const [name, setName] = useState(user.name);

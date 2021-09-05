@@ -1,46 +1,50 @@
 import React, { useState } from "react";
 import { Container, Form, Row, Button, Col } from "react-bootstrap";
-import { connect } from "react-redux";
-
 import FormData from "form-data";
 import { toast } from "react-toastify";
 import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 
-import { api } from "../utils/api";
-import { setCurrentUser } from "../redux/user/user-actions";
+import { api } from "../../utils/api";
+import { setCurrentUser } from "../../redux/user/user-actions";
 
-function Login({ setCurrentUser, history }) {
+function Register({ setCurrentUser, history }) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [disabled, setDisabled] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     var formData = new FormData();
 
+    formData.append("name", name);
     formData.append("email", email);
     formData.append("password", password);
+    formData.append("password_confirmation", confirmPassword);
 
     setDisabled(true);
 
     api({
       method: "post",
-      url: "/login",
+      url: "/register",
       data: formData,
     })
       .then((response) => {
         toast.info("Login Succesfully");
         setCurrentUser(response.data);
         setDisabled(false);
+
         history.push("/dashboard");
       })
       .catch((error) => {
         try {
-          const { errors, message } = error.response.data;
-
-          if (message) toast.error(message);
-          if (errors) errors.map((err) => toast.error(err));
+          const { errors } = error.response.data;
+          errors.map((err) => {
+            toast.error(err);
+          });
         } catch (err) {
           toast.error("Something went wrong");
         }
@@ -50,10 +54,18 @@ function Login({ setCurrentUser, history }) {
 
   return (
     <Container className="w-50">
-      <h1 className="text-center mt-3">Login</h1>
+      <h1 className="text-center mt-3">Register</h1>
       <Row>
         <Col>
           <Form>
+            <Form.Group className="mb-3" controlId="name">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter name"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Group>
             <Form.Group className="mb-3" controlId="email">
               <Form.Label>Email address</Form.Label>
               <Form.Control
@@ -70,16 +82,25 @@ function Login({ setCurrentUser, history }) {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
+            <Form.Group className="mb-3" controlId="password">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Confirm Password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </Form.Group>
             <Form.Group className="text-center">
               <Button
                 variant="primary"
+                type="submit"
                 onClick={handleSubmit}
                 disabled={disabled}
               >
-                Login
+                Register
               </Button>
-              <a href="/register" className="mx-2">
-                Not Registered?
+              <a href="/" className="mx-2">
+                Already Registered?
               </a>
             </Form.Group>
           </Form>
@@ -93,4 +114,4 @@ const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
-export default withRouter(connect(null, mapDispatchToProps)(Login));
+export default withRouter(connect(null, mapDispatchToProps)(Register));

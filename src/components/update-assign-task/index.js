@@ -6,11 +6,11 @@ import { connect } from "react-redux";
 import { toast } from "react-toastify";
 
 import SelectSearch, { fuzzySearch } from "react-select-search";
-import "../utils/select-search.css";
+import "../../utils/select-search.css";
 
-import Dashboard from "./dashboard";
+import Dashboard from "../dashboard";
 
-import { api } from "../utils/api";
+import { api } from "../../utils/api";
 
 function UpdateAssignTask({ currentUser: { access_token }, history }) {
   const location = useLocation();
