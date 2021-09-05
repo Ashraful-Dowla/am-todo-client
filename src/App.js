@@ -13,6 +13,7 @@ import Profile from "./components/profile";
 import AssignTask from "./components/assign-task";
 import AssignTaskList from "./components/assign-task-list";
 import UpdateAssignTask from "./components/update-assign-task";
+import MyAssignTask from "./components/my-assign-task";
 
 function App({ user }) {
   return (
@@ -53,7 +54,7 @@ function App({ user }) {
           path="/profile"
           render={() => (user ? <Profile /> : <Redirect to="/" />)}
         />
-         <Route
+        <Route
           exact
           path="/assign-task"
           render={() => (user ? <AssignTask /> : <Redirect to="/" />)}
@@ -68,6 +69,11 @@ function App({ user }) {
           path="/update-assign-task-list"
           render={() => (user ? <UpdateAssignTask /> : <Redirect to="/" />)}
         />
+        <Route
+          exact
+          path="/my-assign-task"
+          render={() => (user ? <MyAssignTask /> : <Redirect to="/" />)}
+        />
       </Switch>
       <ToastContainer />
     </>
@@ -76,7 +82,7 @@ function App({ user }) {
 
 //state.user.currentUser
 const mapStateToProps = ({ user: { currentUser } }) => ({
-  user: currentUser,
+  user: currentUser
 });
 
 export default connect(mapStateToProps)(App);

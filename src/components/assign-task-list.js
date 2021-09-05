@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import { Container, Row, Card, Button } from "react-bootstrap";
+import { Checkmark } from "react-checkmark";
 
 import { toast } from "react-toastify";
 
@@ -15,26 +16,47 @@ function AssignTaskList({ currentUser: { access_token }, history }) {
     getAssignedTaskList();
   }, []);
 
+  const handleCompleted = async (idx, chk) => {
+    api({
+      method: "put",
+      url: "/completed/assigned_task/" + idx,
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + access_token
+      },
+      data: {
+        completed: 1 - chk
+      }
+    })
+      .then(response => {
+        toast.info(response.data.message);
+        history.push("/assign-task");
+      })
+      .catch(error => {
+        toast.error("Failed to Update");
+      });
+  };
+
   const getAssignedTaskList = async () => {
     const response = await api({
       method: "get",
       url: "assigned_task",
       headers: {
         Accept: "application/json",
-        Authorization: "Bearer " + access_token,
-      },
+        Authorization: "Bearer " + access_token
+      }
     });
 
     setList(response.data);
   };
 
-  const handleUpdate = (idx) => {
+  const handleUpdate = idx => {
     history.push({
       pathname: "/update-assign-task-list",
-      state: { id: idx },
+      state: { id: idx }
     });
   };
-  const handleDelete = async (idx) => {
+  const handleDelete = async idx => {
     if (window.confirm("Are you sure you want to Delete?")) {
       setDisabled(true);
       api({
@@ -42,15 +64,15 @@ function AssignTaskList({ currentUser: { access_token }, history }) {
         url: "assigned_task/" + idx,
         headers: {
           Accept: "application/json",
-          Authorization: "Bearer " + access_token,
-        },
+          Authorization: "Bearer " + access_token
+        }
       })
-        .then((response) => {
+        .then(response => {
           toast.info(response.data.message);
           history.push("/assign-task");
           setDisabled(false);
         })
-        .catch((error) => {
+        .catch(error => {
           toast.error("Failed to Delete");
           setDisabled(false);
         });
@@ -65,9 +87,12 @@ function AssignTaskList({ currentUser: { access_token }, history }) {
           {!list.length && <p>No Data Found</p>}
           {list &&
             list.map((item, idx) => (
-              <Card key={idx} style={{ width: "18rem" }} className="m-2">
+              <Card key={idx} style={{ width: "25rem" }} className="m-2">
                 <Card.Body>
-                  <Card.Title>Assigned To: {item.assigned_to}</Card.Title>
+                  <Card.Title>
+                    Assigned To: {item.assigned_to}
+                    {item.completed ? <Checkmark size="medium" /> : ""}
+                  </Card.Title>
                   <Card.Title>Steps</Card.Title>
                   {item.steps.map((stp, indx) => (
                     <Card.Text key={indx}>
@@ -77,6 +102,13 @@ function AssignTaskList({ currentUser: { access_token }, history }) {
                   ))}
                 </Card.Body>
                 <Card.Footer>
+                  <Button
+                    variant="warning"
+                    className="mx-2"
+                    onClick={() => handleCompleted(item.id, item.completed)}
+                  >
+                    {item.completed ? "Incomplete" : "Complete"}
+                  </Button>
                   <Button
                     variant="info"
                     className="mx-2"
@@ -103,7 +135,7 @@ function AssignTaskList({ currentUser: { access_token }, history }) {
 }
 
 const mapStateToProps = ({ user: { currentUser } }) => ({
-  currentUser,
+  currentUser
 });
 
 export default withRouter(connect(mapStateToProps)(AssignTaskList));
