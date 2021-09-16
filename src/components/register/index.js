@@ -53,7 +53,7 @@ function Register({ setCurrentUser, history }) {
   };
 
   return (
-    <Container className="w-50">
+    <Container className="w-50 my-5 form-design">
       <h1 className="text-center mt-3">Register</h1>
       <Row>
         <Col>
@@ -92,14 +92,14 @@ function Register({ setCurrentUser, history }) {
             </Form.Group>
             <Form.Group className="text-center">
               <Button
-                variant="primary"
+                variant="secondary"
                 type="submit"
                 onClick={handleSubmit}
                 disabled={disabled}
               >
                 Register
               </Button>
-              <a href="/" className="mx-2">
+              <a href="/" className="mx-2 registered">
                 Already Registered?
               </a>
             </Form.Group>

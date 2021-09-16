@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import Dashboard from "../dashboard";
 import { api } from "../../utils/api";
 import { formattedDate } from "../../utils/format-date";
-
+import './todo.css';
 function AddTodo({ user, history }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -64,23 +64,27 @@ function AddTodo({ user, history }) {
       });
   };
   return (
-    <>
+    <> 
       <Dashboard />
-      <h1 className="text-center mt-3">Add Todo List</h1>
+      <div className="addTodo">
+      <h1 className="text-center">Add Todo List</h1>
       <Container className="w-50">
         <Row>
           <Col>
-            <Form>
-              <Form.Group className="mb-3" controlId="name">
-                <Form.Label>Name</Form.Label>
+            <Form  className="todoForm">
+            <div className="todoStyle">
+
+        
+              <Form.Group className="form-style" controlId="name">
+                {/* <Form.Label>Name</Form.Label> */}
                 <Form.Control
                   type="text"
                   placeholder="Enter name"
                   onChange={(e) => setName(e.target.value)}
                 />
               </Form.Group>
-              <Form.Group className="mb-3" controlId="description">
-                <Form.Label>Description</Form.Label>
+              <Form.Group className="form-style" controlId="description">
+                {/* <Form.Label>Description</Form.Label> */}
                 <Form.Control
                   as="textarea"
                   aria-label="With textarea"
@@ -88,7 +92,9 @@ function AddTodo({ user, history }) {
                   onChange={(e) => setDescription(e.target.value)}
                 />
               </Form.Group>
-              <Form.Group>
+              </div>
+              <div className="dateStyle">
+                  <Form.Group>
                 <Form.Label>Deadline</Form.Label>
                 <DatePicker
                   dateFormat="yyyy-MM-dd"
@@ -96,9 +102,10 @@ function AddTodo({ user, history }) {
                   onChange={(date) => setDeadline(date)}
                 />
               </Form.Group>
-              <Form.Group className="text-center">
+              </div>
+              <Form.Group className="text-end mt-3">
                 <Button
-                  variant="primary"
+                  variant="secondary"
                   onClick={handleSubmit}
                   disabled={disabled}
                 >
@@ -109,6 +116,7 @@ function AddTodo({ user, history }) {
           </Col>
         </Row>
       </Container>
+      </div>
     </>
   );
 }

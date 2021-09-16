@@ -8,7 +8,8 @@ import { withRouter } from "react-router-dom";
 
 import { api } from "../../utils/api";
 import { setCurrentUser } from "../../redux/user/user-actions";
-
+import './login.css';
+// import img from "./images/login.jpg";
 function Login({ setCurrentUser, history }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -49,8 +50,9 @@ function Login({ setCurrentUser, history }) {
   };
 
   return (
-    <Container className="w-50">
-      <h1 className="text-center mt-3">Login</h1>
+    <Container className="my-5 form-design">
+     <div className="loginImg"> <img src={`${process.env.PUBLIC_URL}/images/lo.png`} /></div>
+      <h1 className="text-center login">Login</h1>
       <Row>
         <Col>
           <Form>
@@ -72,13 +74,13 @@ function Login({ setCurrentUser, history }) {
             </Form.Group>
             <Form.Group className="text-center">
               <Button
-                variant="primary"
+                variant="secondary"
                 onClick={handleSubmit}
                 disabled={disabled}
               >
                 Login
               </Button>
-              <a href="/register" className="mx-2">
+              <a href="/register" className="mx-2 registered">
                 Not Registered?
               </a>
             </Form.Group>

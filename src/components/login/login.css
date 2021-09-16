@@ -1,0 +1,29 @@
+/* h1{
+    background-color: aqua;
+} */
+body{
+    background-color: aquamarine;
+}
+.form-design{
+    background-color: #fafdff;
+    padding: 30px;
+    border-radius: 10px;
+    width: 40%!important;
+}
+.container h1{
+    background-color: #d2d8d6;
+     border-radius: 5px;
+    padding: 4px;
+    color: #615f5f;
+}
+.registered{
+    text-decoration: none;
+    color: #333333;
+    font-weight: 400;
+}
+.loginImg{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

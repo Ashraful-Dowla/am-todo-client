@@ -7,7 +7,7 @@ import { setCurrentUser } from "../../redux/user/user-actions";
 
 import { api } from "../../utils/api";
 import { toast } from "react-toastify";
-
+import './dashboard.css';
 function Dashboard({ user: { user, access_token }, setCurrentUser }) {
   const history = useHistory();
   const handleLogout = async event => {
@@ -32,9 +32,11 @@ function Dashboard({ user: { user, access_token }, setCurrentUser }) {
       });
   };
   return (
-    <Navbar bg="light" variant="light">
+    <Navbar className="navColor" bg="dark" variant="dark">
       <Container>
-        <Navbar.Brand href="#home">TODO</Navbar.Brand>
+        <Navbar.Brand href="#home">
+        <img src={`${process.env.PUBLIC_URL}/images/to-do-list (2).png`} />
+         TODO</Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link href="/add-todo">Add Todo</Nav.Link>
           <Nav.Link href="/todo-list">Todo List</Nav.Link>
@@ -42,10 +44,15 @@ function Dashboard({ user: { user, access_token }, setCurrentUser }) {
           <Nav.Link href="/assign-task-list">Assign Task List</Nav.Link>
           <Nav.Link href="/my-assign-task">My Assign Task </Nav.Link>
         </Nav>
+       
         <Nav>
+          <div className="d-flex align-items-center "> <img src={`${process.env.PUBLIC_URL}/images/profile-user (1).png`} /></div>
           <NavDropdown
+        
             id="nav-dropdown-dark-example"
+            
             title={user.name}
+           
             menuVariant="dark"
           >
             <NavDropdown.Item href="/profile">Profile</NavDropdown.Item>

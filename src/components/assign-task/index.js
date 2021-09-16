@@ -9,7 +9,7 @@ import "../../utils/select-search.css";
 
 import Dashboard from "../dashboard";
 import { api } from "../../utils/api";
-
+import './assign-task.css';
 function AssignTask({ currentUser: { access_token } }) {
   const [disabled, setDisabled] = useState(false);
   const [assignedTo, setAssignedTo] = useState();
@@ -89,6 +89,7 @@ function AssignTask({ currentUser: { access_token } }) {
   return (
     <>
       <Dashboard />
+      <div className="assignTask">
       <h1 className="text-center mt-3">Assign Task</h1>
       <Container className="w-50">
         <Row>
@@ -123,24 +124,24 @@ function AssignTask({ currentUser: { access_token } }) {
                   value={description}
                 />
               </Form.Group>
-              <Button
-                variant="warning"
-                className="m-2"
+              <Button 
+                variant="success"
+                className="m-2 text-end"
                 onClick={handleAddSteps}
               >
                 Add
               </Button>
               {steps.length != 0 && (
-                <Table striped bordered hover size="sm">
-                  <thead>
-                    <tr>
+                <Table striped bordered hover size="sm" variant="dark">
+                  <thead className="text-center">
+                    <tr >
                       <th>#</th>
                       <th>Title</th>
                       <th>Description</th>
                       <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="text-center">
                     {steps.map((step, idx) => (
                       <tr>
                         <td>{idx}</td>
@@ -162,7 +163,7 @@ function AssignTask({ currentUser: { access_token } }) {
               {steps.length != 0 && (
                 <Form.Group className="text-center mt-5">
                   <Button
-                    variant="primary"
+                    variant="secondary"
                     onClick={handleSubmit}
                     disabled={disabled}
                   >
@@ -174,6 +175,7 @@ function AssignTask({ currentUser: { access_token } }) {
           </Col>
         </Row>
       </Container>
+      </div>
     </>
   );
 }

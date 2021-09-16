@@ -8,7 +8,7 @@ import Dashboard from "../dashboard";
 import { api } from "../../utils/api";
 import { toast } from "react-toastify";
 import { Checkmark } from "react-checkmark";
-
+import './todoList.css';
 function TodoList({ user, history }) {
   const [list, setList] = useState([]);
 
@@ -76,13 +76,15 @@ function TodoList({ user, history }) {
   };
   return (
     <>
-      <Dashboard />
+      <Dashboard /> 
+     
       <Container className="mt-5">
         <Row>
           {!list.length && <p>No Data Found</p>}
           {list &&
             list.map((item, idx) => (
-              <Card key={idx} style={{ width: "25rem" }} className="m-2">
+              
+              <Card key={idx} style={{ width: "25rem" }} className="m-2 todoList">
                 <Card.Body>
                   <Card.Title>
                     Title: {item.name}
@@ -91,7 +93,7 @@ function TodoList({ user, history }) {
                   <Card.Text>Description: {item.description}</Card.Text>
                   <Card.Text>Deadline: {item.deadline}</Card.Text>
                 </Card.Body>
-                <Card.Footer>
+                <Card.Footer className="footerStyle">
                   <Button
                     variant="warning"
                     className="mx-2"
@@ -115,9 +117,11 @@ function TodoList({ user, history }) {
                   </Button>
                 </Card.Footer>
               </Card>
+            
             ))}
         </Row>
       </Container>
+     
     </>
   );
 }
